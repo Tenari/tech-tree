@@ -1,96 +1,118 @@
-# society.rb
+# Musings
 
-A command line tool for describing essential technologies and their dependencies
+*stuff* is the main building block of technology. It could be an end-product, like a ham sandwich, or it could be an ingredient like flour. Of course, to a miller, flour is the end-product. This is key to the nature of technology--stuff can be used to produce other stuff, and is sometimes a tool, sometimes a resource, and sometimes the end-goal.
 
-The uses of this thing are:
+*stuff* is created by:
+  1. gathering *materials*
+  2. gathering *tools*
+  3. performing transformations on those materials using those tools in a sequence known as a *recipe*
 
-- to understand the dependency structure of modern technology
-- to isolate the most important components of technology
-- to enable more self-sufficient existences by localizing particular technologies
+*stuff* is connected to other *stuff* by being a *material for* or a *tool for*. Thus all *tools* are stuff, and all *materials* are stuff, but not all stuff is a material or a tool or either. Example:
 
-What does that mean? Well, take milton friedman's classic example of the pencil. "Noboy knows how to make a pencil." He's right. The modern technology that goes into pencil making is so distributed and interdependent that a whole graph would be if not impossible, certainly impractical to analyze and describe. However, he's wrong in the sense that a pencil is just a marking component, a grip component and an erasing component assembled into an ergonomic fashion. While it may not be practical to duplicate precisely any exact pencil on the market in a one-off or small batch scenario, it is certainly theoretically possible to create a pencil "from scratch" or at least from components which depend on the fragile, interconnected web of modern production as little as possible, with only the pre-requisite of a few more general purpose production tools, and basic, common materials. We accomplish this feat of "making a pencil" by first, analyzing the object to list the minimum "required" dependencies and materials, then formulating a recipie using those tools and materials, and then just making the damn thing.
+```
+  hammer -[tool for]-> fence
+  fence post -[material for]-> fence
+  wood -[material for]-> fence post -[material for]-> fence
+```
 
-But more than enabling production of just pencils, it is probable that in terms of tool-dependencies, relatively few are required to enable production of a relatively wide range of items, which implies that by creating/owning these "key" tools, and securing a source of common raw material, an impressive array of material needs from soceity can be independently produced. This is the core of self-sufficiency.
+This simple example illustrates that key property of technology, it's multi-layered nature. By following the connections between *stuff* arbitrarily far up the tree, we can generate a compound recipe from arbirarily base materials/tools. Of course, this assumes a completely fleshed out tree, which is impossible, so every tree will terminate in some level of vagueness like "find a rock" or something, since you can't make literally everything from scratch.
 
-## structure
+How do we deal with the fact that there are huge amounts of variations on any given *stuff*? Like how many different kinds of "hammer" are there? Well, generally, we follow this rule: *stuff* is vauge, *recipes* are precise. What we mean by that, is that *stuff* is always a category of things. If it's a sub-type of stuff (has a parent_id) it'll be a specific category, sometimes a very specific category, but it's always a category. But a *recipe* is always a specific way to make a specific stuff. If people want to adapt the recipe, that's on them. Where recipes require precise ingredients, they will refer to as precise a sub-type of stuff as necessary, and where they are ambivalent, they will refer to a higher level, more vague *stuff*.
 
-There are two components to a techonology: the human and the material. The material is referred to as the "tool" and the human is the "role" or "operator". For example, the "hammer" is a tool used by a human performing the role of "builder".
+## Data model
 
-### tools
+- Stuff:
+  - name: text
+  - description: text (dictionary definition/explanation of what the stuff is)
+  - image: string (link to image of the stuff)
+  - parent_id: integer (the optional id of a parent stuff if this is a sub-type of stuff)
+  - sub-types: list of stuff (has_many stuff as sub_stuff)
+  - recipes: list of *recipe* (includes recipes for sub-types)
+  - notes: text (musings about variations, failure modes, design considerations, etc)
+- Recipe:
+  - belongs_to Stuff (the stuff this produces)
+  - source: string (attribution to the inventor of the method)
+  - demonstration: string (link to video/image collection demonstrating process)
+  - steps: text (numbered list of steps instructing on how to use materials and tools to create the stuff)
+  - materials: list of stuff (has_many stuff as materials)
+  - tools: list of stuff (has_many stuff as tools)
 
-Tools are created by a human following a *recipie*, which utilizes other *tools* and *materials*. The human may require *skills* in order to perform the recipie. There are often multiple versions of a tool, such as a *stone hammer* and a *steel hammer* both being a *hammer*. Thus the data-description of a tool consists of an array of versions of that tool, where each version contains:
+## Usage
 
-- name
-- description
-  - textual
-  - visual/schematic
-- version number
-- necessary materials for creation
-- pre-requisite tools for creation
-- recipie for creation
+Say you want to create a fence, but you don't know how.
 
-The "necessary materials for creation" is a list of pointers to raw elements or naturally occuring materials. The "pre-requisite tools for creation" is a list of pointers to other tools (ideally) within the database. The recipie is merely a recommended route to the creation of the technology. Obviously there are an innumerable number of ways to go about fashioning most tools, so for feasibility we include only one, which (ideally) balances limiting the number of pre-requitisites and materials, while at the same time limiting human labor. Generally, more advanced pre-requisites can be used to produce a given tool with less input human labor, but we try to limit use of advanced technology as much as possible, while still being reasonable about human effort, since advanced tools are generally good for mass production, not one-off or small batch production which is what this is largely centered around.
+```
+> tech search fence
+123  Wood Fence
+124  Stone Fence
+125  Iron Fence
+234  Fence-post
+M    ...show more results...
+?    
+```
+so you type in 123, the id of the likely match to what you meant
+```
+?    123
+Wood Fence - a structure that encloses an area, typically outdoors, and is usually constructed from posts that are connected by boards, wire, rails or netting. A fence differs from a wall in not having a solid foundation along its whole length.
+```
+and it gives you a description. Looks good so you want to see how to make it:
+```
+> tech how 123
+Wood Fence:
+(first method)
+  Materials:
+    - fence slats
+    - fence posts
+    - fence crossbars
+    - nails
+  Tools:
+    - measuring tape
+    - shovel
+    - post-hole-digger
+    - hammer
+  Recipe:
+    1. measure fenceline
+    2. dig post holes on corners and along fence-line at even intervals the length of your crossbars
+    3. seat fence-posts
+    4. nail crossbars to posts
+    5. nail fence slats to crossbars
 
-#### materials
+see next method? Y/n
+```
+that method looks good, but you want to know how to make fence slats, as part of your recipe, so you ask to *expand* `-e` the `'fence slats'` material by inserting the first recipe for creating fence slats into this recipe
+```
+> tech how -e 'fence slats' 123.1
 
-Materials are either raw elements like _Cu (copper)_ or natural materials like _stone_. Composites/intermediate substrates like _cloth_ are considered tools, since they are man-made and follow a recipie. Each natural material is composed of raw elements in a certain structure and ratio. Each natural material can have multiple versions as well, so a material consists of an array of versions where each version contains:
+Wood Fence - method 1:
+  Materials:
+    - wood
+    - fence posts
+    - fence crossbars
+    - nails
+  Tools:
+    - measuring tape
+    - shovel
+    - post-hole-digger
+    - hammer
+    - table saw
+  Recipe:
+    1. use table saw to cut large block of wood into long thin fence-slats
+    2. measure fenceline
+    3. dig post holes on corners and along fence-line at even intervals the length of your crossbars
+    4. seat fence-posts
+    5. nail crossbars to posts
+    6. nail fence slats to crossbars
+```
+and it has automagically substituted `'fence slats'` with the list of materials necessary for making them from scratch (`wood` in this case), and has added a step (or more in most cases) to the top of the recipe.
 
-- name
-- description
-  - textual
-  - visual/schematic
-- version number
-- elements
-- element ratios
-
-### roles
-
-### Current Dependence and Self-Sufficiency
-
-Obviously, complete isolation from modern society entails drastic lowering of technology. There are certain amenaties of modernity that one man or one small group cannot sustain on their own. However with only a small/limited connection to the rest of society, and sufficient preparation/prerequities, substantial isolation can be attained, without substantial reduction of technological or amenity level.
-
-Core provisions of modernity:
-- running water/plumbing
-- electric and combustible liquid power
-- food
-- clothing
-- housing
-- waste disposal
-- tools
-- security
-- education / socialization
-- transportation
-- trinkets/junk
-- entertainment
-
-Self-sufficient replacements:
-- water = well + rainfall collection
-- sewage ? septic tank? still need to get it cleaned out. dunno
-- power = ideal is flowing water as power source, but solar, solid fuel burning, wind are all additionally useful
-- food = farming and ranching
-- clothing
-- housing = self-built cordwood home on owned land
-- waste disposal
-- tools =
-
-#### Food
-
-meat:
-- chicken
-- rabbit
-- pork
-
-veggies:
-- potatoes
-- onions
-- jalapenos
-- tomatoes
-- garlic
-- oregano
-
-other:
-- eggs
-- milk
-- tea
-- cheese
-- yogurt
+Could also be used to generate a list of tech dependencies for a thing like
+```
+> tech deps -n 1 123.1
+  Materials:
+    - stuff1
+    - stuff2
+  Tools:
+    - stuff1
+    - stuff2
+```
+where `-n 1` refers to how many levels back to replace. (how "basic"/"from scratch" to go)
