@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Generic Tool:</strong>
+  <%= link_to "#{@tool.generic_tool.name}", @tool.generic_tool %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @tool.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @tool.description %>
+</p>
+
+<p>
+  <strong>Schematic:</strong>
+  <%= @tool.schematic %>
+</p>
+
+<p>
+  <strong>Demonstration video:</strong>
+  <a href="<%= @tool.demonstration %>"><%= @tool.demonstration %></a>
+</p>
+
+<p>
+  <strong>Recipie:</strong>
+  <%= markdown @tool.recipie %>
+</p>
+
+<%= link_to 'Edit', edit_tool_path(@tool) %> |
+<%= link_to 'Back', tools_path %>

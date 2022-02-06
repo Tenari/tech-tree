@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Generic Tools</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Versions</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @generic_tools.each do |generic_tool| %>
+      <tr>
+        <td><%= generic_tool.name %></td>
+        <td><%= generic_tool.description %></td>
+        <td><%= generic_tool.tools.count%></td>
+        <td><%= link_to 'Show', generic_tool %></td>
+        <td><%= link_to 'Edit', edit_generic_tool_path(generic_tool) %></td>
+        <td><%= link_to 'Destroy', generic_tool, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Generic tool', new_generic_tool_path %>

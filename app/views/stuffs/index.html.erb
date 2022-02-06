@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Stuffs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Image</th>
+      <th>Recipes</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stuffs.each do |stuff| %>
+      <tr>
+        <td><%= link_to stuff.name, stuff %></td>
+        <td><%= stuff.description %></td>
+        <td>
+          <% if stuff.image %>
+            <img src="<%= stuff.image %>" style="max-height: 80px"/>
+          <% else %>
+            N/A
+          <% end %>
+        </td>
+        <td><%= stuff.recipes.count %></td>
+        <td><%= link_to 'Edit', edit_stuff_path(stuff) %></td>
+        <td><%= link_to 'Destroy', stuff, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Stuff', new_stuff_path %>

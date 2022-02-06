@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @generic_tool.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @generic_tool.description %>
+</p>
+
+<p>Specific Versions: (<%=link_to 'Add new', "#{new_tool_path}?tool[generic_tool_id]=#{@generic_tool.id}"%>)</p>
+<ul>
+  <% @generic_tool.tools.each do |t| %>
+    <li><%=link_to t.name, t%></li>
+  <% end %>
+</ul>
+
+<%= link_to 'Edit', edit_generic_tool_path(@generic_tool) %> |
+<%= link_to 'Back', generic_tools_path %>

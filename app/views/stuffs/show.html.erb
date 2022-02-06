@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @stuff.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @stuff.description %>
+</p>
+
+<% if @stuff.image %>
+  <p>
+    <strong>Image:</strong>
+    <img src="<%= @stuff.image %>" style="max-height: 100px; max-width: 100px;"/>
+  </p>
+<% end %>
+
+<p>
+  <strong>Notes:</strong>
+  <%= markdown @stuff.notes %>
+</p>
+
+
+<% if @stuff.parent %>
+  <p><strong>Parent Stuff:</strong> <%=link_to @stuff.parent.name, @stuff.parent %></p>
+<% end %>
+
+<% if @stuff.sub_types.count > 0 %>
+  <p><strong>Sub Types:</strong></p>
+  <ul>
+  <% @stuff.sub_types.each do |sub| %>
+    <li><%=link_to sub.name, sub %></li>
+  <% end %>
+  </ul>
+<% end %>
+
+<% if @stuff.recipes.count > 0 %>
+  <p><strong>Recipes:</strong></p>
+  <ul>
+  <% @stuff.recipes.each do |recpie| %>
+    <li><%=link_to recpie.name, recpie %></li>
+  <% end %>
+  </ul>
+<% end %>
+
+<div><%= link_to "Add Recipe", new_stuff_recipe_path(@stuff) %></div>
+
+<%= link_to 'Edit', edit_stuff_path(@stuff) %> |
+<%= link_to 'Full list', stuffs_path %>

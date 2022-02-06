@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @material.type %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @material.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @material.description %>
+</p>
+
+<p>
+  <strong>Schematic:</strong>
+  <%= @material.schematic %>
+</p>
+
+<p>
+  <strong>Version:</strong>
+  <%= @material.version %>
+</p>
+
+<p>
+  <strong>Ratios:</strong>
+  <%= @material.ratios %>
+</p>
+
+<%= link_to 'Edit', edit_material_path(@material) %> |
+<%= link_to 'Back', materials_path %>

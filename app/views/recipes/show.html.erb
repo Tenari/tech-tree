@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @recipe.name %>
+</p>
+
+<p>
+  <strong>Demonstration:</strong>
+  <%= link_to @recipe.demonstration, @recipe.demonstration %>
+</p>
+
+<% if @recipe.recipe_materials.count > 0 %>
+  <p>
+    <strong>Materials:</strong>
+    <ul>
+    <% @recipe.recipe_materials.each do |m| %>
+      <li><%=m.quantity%> <%= m.unit %> - <%= link_to m.stuff.name, m.stuff %></li>
+    <% end %>
+    </ul>
+  </p>
+<% end %>
+
+<p>
+  <strong>Steps:</strong>
+  <%= markdown @recipe.steps %>
+</p>
+
+<% if @recipe.stuff %>
+  <p>
+    <strong>Stuff produced by this recipe:</strong>
+    <%= link_to @recipe.stuff.name, @recipe.stuff %>
+  </p>
+<% end %>
+
+<%= link_to 'Edit', edit_recipe_path(@recipe) %>
