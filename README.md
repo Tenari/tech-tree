@@ -1,3 +1,9 @@
+# Code overview
+
+there's a rails app and a commandline app, both serving as an interface for interacting with the SQL database which represents the tech-tree.
+
+The rails app works like a basic rails app. The commandline app code is found in `lib/commandline.rb` and can be accessed by calling `bin/tech` see [usage](#usage) for more info.
+
 # Musings
 
 *stuff* is the main building block of technology. It could be an end-product, like a ham sandwich, or it could be an ingredient like flour. Of course, to a miller, flour is the end-product. This is key to the nature of technology--stuff can be used to produce other stuff, and is sometimes a tool, sometimes a resource, and sometimes the end-goal.
@@ -33,9 +39,17 @@ How do we deal with the fact that there are huge amounts of variations on any gi
   - belongs_to Stuff (the stuff this produces)
   - source: string (attribution to the inventor of the method)
   - demonstration: string (link to video/image collection demonstrating process)
-  - steps: text (numbered list of steps instructing on how to use materials and tools to create the stuff)
-  - materials: list of stuff (has_many stuff as materials)
-  - tools: list of stuff (has_many stuff as tools)
+  - materials: list of stuff (has_many stuff as materials) (this is actually implied/generated from the steps)
+  - tools: list of stuff (has_many stuff as tools) (this is actually implied/generated from the steps)
+  - steps: ordered list of Step (has_many step. the point of this is so that steps can be linked to materials and tools, and can have image/demonstration metadata)
+- Step:
+  - recipe_id:integer
+  - order:integer (the location-ranking of where this step should be performed)
+  - text:text
+  - image:string
+  - demonstration:string
+  - materials: list of stuff (limited to materials referenced in the Recipe)
+  - tools: list of stuff (limited to tools referenced in the Recipe)
 
 ## Usage
 

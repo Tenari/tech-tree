@@ -1,0 +1,31 @@
+<tr>
+  <td>
+    <input
+      type="number"
+      value="<%=step.order%>"
+      name="recipe[steps][][order]"
+    >
+  </td>
+  <td>
+    <input
+      type="text"
+      value="<%=step.text%>"
+      name="recipe[steps][][text]"
+    >
+  </td>
+  <td>
+    <input
+      type="text"
+      value="<%=step.image%>"
+      name="recipe[steps][][image]"
+    >
+  </td>
+  <td>
+    <input
+      type="text"
+      value="<%=step.demonstration%>"
+      name="recipe[steps][][demonstration]"
+    >
+  </td>
+  <td><button class="remove-step" data-id="<%=step.id%>">Delete</button></td>
+</tr>

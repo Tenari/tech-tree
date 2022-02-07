@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220205232829) do
+ActiveRecord::Schema.define(version: 20220207215351) do
 
   create_table "generic_tools", force: :cascade do |t|
     t.string   "name"
@@ -31,21 +31,8 @@ ActiveRecord::Schema.define(version: 20220205232829) do
     t.datetime "updated_at",  null: false
   end
 
-  create_table "recipe_materials", id: false, force: :cascade do |t|
-    t.integer "recipe_id"
-    t.integer "stuff_id"
-    t.decimal "quantity"
-    t.string  "unit"
-  end
-
-  create_table "recipe_tools", id: false, force: :cascade do |t|
-    t.integer "recipe_id"
-    t.integer "stuff_id"
-  end
-
   create_table "recipes", force: :cascade do |t|
     t.string   "name"
-    t.text     "steps"
     t.integer  "stuff_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
@@ -59,6 +46,26 @@ ActiveRecord::Schema.define(version: 20220205232829) do
     t.integer  "stuff_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "step_materials", id: false, force: :cascade do |t|
+    t.integer "step_id"
+    t.integer "stuff_id"
+    t.decimal "quantity"
+    t.string  "unit"
+  end
+
+  create_table "step_tools", id: false, force: :cascade do |t|
+    t.integer "step_id"
+    t.integer "stuff_id"
+  end
+
+  create_table "steps", force: :cascade do |t|
+    t.integer "recipe_id"
+    t.integer "order"
+    t.text    "text"
+    t.string  "image"
+    t.string  "demonstration"
   end
 
   create_table "stuff_sub_types", id: false, force: :cascade do |t|

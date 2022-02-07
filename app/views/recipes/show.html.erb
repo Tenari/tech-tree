@@ -10,11 +10,11 @@
   <%= link_to @recipe.demonstration, @recipe.demonstration %>
 </p>
 
-<% if @recipe.recipe_materials.count > 0 %>
+<% if @recipe.step_materials.count > 0 %>
   <p>
     <strong>Materials:</strong>
     <ul>
-    <% @recipe.recipe_materials.each do |m| %>
+    <% @recipe.step_materials.each do |m| %>
       <li><%=m.quantity%> <%= m.unit %> - <%= link_to m.stuff.name, m.stuff %></li>
     <% end %>
     </ul>
@@ -23,7 +23,7 @@
 
 <p>
   <strong>Steps:</strong>
-  <%= markdown @recipe.steps %>
+  <%= markdown @recipe.steps_text %>
 </p>
 
 <% if @recipe.stuff %>

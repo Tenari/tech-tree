@@ -19,7 +19,7 @@
         <td><%= link_to stuff.name, stuff %></td>
         <td><%= stuff.description %></td>
         <td>
-          <% if stuff.image %>
+          <% unless stuff.image.blank? %>
             <img src="<%= stuff.image %>" style="max-height: 80px"/>
           <% else %>
             N/A

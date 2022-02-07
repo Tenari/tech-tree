@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  #resources :recipes
+  resources :steps
   resources :stuffs, shallow: true do
-    resources :recipes
+    resources :recipes#, shallow: true do
+    #  resources :steps
+    #end
   end
   root 'stuffs#index'
   resources :materials
