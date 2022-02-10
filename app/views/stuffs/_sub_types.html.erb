@@ -1,0 +1,10 @@
+<% if stuff.sub_types.count > 0 %>
+  <ul>
+  <% stuff.sub_types.each do |sub| %>
+    <li>
+      <%=link_to sub.name, sub %>
+      <%= render :partial => 'sub_types', locals: { stuff: sub } %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

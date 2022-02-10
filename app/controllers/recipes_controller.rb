@@ -1,28 +1,28 @@
 class RecipesController < ApplicationController
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
 
-  # GET /recipes
-  # GET /recipes.json
   def index
     @recipes = Recipe.all
   end
 
-  # GET /recipes/1
-  # GET /recipes/1.json
   def show
   end
 
-  # GET /recipes/new
   def new
     @recipe = Recipe.new(stuff_id: params[:stuff_id])
   end
 
-  # GET /recipes/1/edit
+  def material
+    return render partial: 'material', locals: {material: RecipeMaterial.new(quantity: 1, unit: 'item') }
+  end
+
+  def tool
+    return render partial: 'tool', locals: {tool: RecipeTool.new(quantity: 1) }
+  end
+
   def edit
   end
 
-  # POST /recipes
-  # POST /recipes.json
   def create
     @recipe = Recipe.new(recipe_params)
 
@@ -37,28 +37,17 @@ class RecipesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /recipes/1
-  # PATCH/PUT /recipes/1.json
   def update
-    #@recipe.recipe_materials.delete_all
-    params[:recipe][:recipe_materials].each do |rm_hash|
-      params.permit!
-      rm_hash = rm_hash.to_h.symbolize_keys
-      if @recipe.recipe_materials.where(rm_hash).count > 0
-        next
-      elsif rm = @recipe.recipe_materials.where(stuff_id: rm_hash[:stuff_id]).first
-        puts rm
-        puts rm.recipe_id
-        puts rm.stuff_id
-        rm.update(quantity: rm_hash[:quantity], unit: rm_hash[:unit])
-      elsif Stuff.exists?(rm_hash[:stuff_id])
-        @recipe.recipe_materials.create(rm_hash)
-      else
-        #TODO handle error
-        puts "bad data"
-        puts rm_hash
-      end
-    end
+    params[:recipe].permit!
+    @recipe.steps.delete_all
+    @recipe.steps = params[:recipe][:steps].map {|s| Step.new(s.to_h)}.select {|s| s.valid?}
+
+    @recipe.recipe_materials.delete_all
+    @recipe.recipe_materials = params[:recipe][:recipe_materials].map { |rm| RecipeMaterial.new(rm.to_h) }.select {|rm| Stuff.exists?(rm.stuff_id)}
+
+    @recipe.recipe_tools.delete_all
+    @recipe.recipe_tools = params[:recipe][:recipe_tools].map { |rt| RecipeTool.new(rt.to_h) }.select {|rt| Stuff.exists?(rt.stuff_id)}
+
     respond_to do |format|
       if @recipe.update(recipe_params)
         format.html { redirect_to @recipe, notice: 'Recipe was successfully updated.' }

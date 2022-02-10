@@ -28,12 +28,10 @@
 <% end %>
 
 <% if @stuff.sub_types.count > 0 %>
-  <p><strong>Sub Types:</strong></p>
-  <ul>
-  <% @stuff.sub_types.each do |sub| %>
-    <li><%=link_to sub.name, sub %></li>
-  <% end %>
-  </ul>
+  <p><strong>Sub Types:</strong> <%= link_to "Add Sub Type", new_stuff_path + "?#{{parent_id: @stuff}.to_query}" %></p>
+  <%= render partial: "sub_types", locals: { stuff: @stuff} %>
+<% else %>
+  <div><%= link_to "Add Sub Type", new_stuff_path + "?#{{parent_id: @stuff}.to_query}" %></div>
 <% end %>
 
 <% if @stuff.recipes.count > 0 %>

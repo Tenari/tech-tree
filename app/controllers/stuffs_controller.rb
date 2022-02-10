@@ -1,23 +1,17 @@
 class StuffsController < ApplicationController
   before_action :set_stuff, only: [:show, :edit, :update, :destroy]
 
-  # GET /stuffs
-  # GET /stuffs.json
   def index
     @stuffs = Stuff.all
   end
 
-  # GET /stuffs/1
-  # GET /stuffs/1.json
   def show
   end
 
-  # GET /stuffs/new
   def new
-    @stuff = Stuff.new
+    @stuff = Stuff.new(parent_id: params[:parent_id])
   end
 
-  # GET /stuffs/1/edit
   def edit
   end
 

@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     #  resources :steps
     #end
   end
+  get '/recipes/material/new' => 'recipes#material', as: :new_recipe_material
+  get '/recipes/tool/new' => 'recipes#tool', as: :new_recipe_tool
   root 'stuffs#index'
   resources :materials
   resources :tools

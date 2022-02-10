@@ -25,6 +25,39 @@
   </div>
 
   <div class="field">
+    <%= f.label :materials %><br>
+    <table class="materials-table">
+      <tr>
+        <th>stuff_id</th>
+        <th>quantity</th>
+        <th>unit</th>
+        <th></th>
+      </tr>
+      <% @recipe.recipe_materials.each_with_index do |rm, index| %>
+        <%= render :partial => 'material', locals: { material: rm } %>
+      <% end %>
+      <%= render :partial => 'material', locals: { material: RecipeMaterial.new(quantity: 1, unit: 'item') } %>
+    </table>
+    <button class="add-table-item" data-url="<%=new_recipe_material_path%>">Add Material</button>
+  </div>
+
+  <div class="field">
+    <%= f.label :tools %><br>
+    <table class="tools-table">
+      <tr>
+        <th>stuff_id</th>
+        <th>quantity</th>
+        <th></th>
+      </tr>
+      <% @recipe.recipe_tools.each_with_index do |rm, index| %>
+        <%= render :partial => 'tool', locals: { tool: rm } %>
+      <% end %>
+      <%= render :partial => 'tool', locals: { tool: RecipeTool.new(quantity: 1) } %>
+    </table>
+    <button class="add-table-item" data-url="<%=new_recipe_tool_path%>">Add tool</button>
+  </div>
+
+  <div class="field">
     <%= f.label :steps %><br>
     <table class="steps-table">
       <tr>
@@ -39,44 +72,7 @@
       <% end %>
       <%= render :partial => 'steps/edit', locals: { step: Step.new(order: @recipe.steps.count + 1) } %>
     </table>
-    <button class="add-step">Add step</button>
-  </div>
-
-  <div class="field">
-    <%= f.label :recipe_materials %><br>
-    <% @recipe.step_materials.each_with_index do |rm, index| %>
-      <input
-        type="number"
-        value="<%=rm.stuff_id%>"
-        name="recipe[recipe_materials][][stuff_id]"
-      >
-      <input
-        type="number"
-        value="<%=rm.quantity%>"
-        name="recipe[recipe_materials][][quantity]"
-      >
-      <input
-        type="text"
-        value="<%=rm.unit%>"
-        name="recipe[recipe_materials][][unit]"
-      >
-    <% end %>
-    <div>New material:</div>
-    <input
-      type="number"
-      value="0"
-      name="recipe[recipe_materials][][stuff_id]"
-    >
-    <input
-      type="number"
-      value="1"
-      name="recipe[recipe_materials][][quantity]"
-    >
-    <input
-      type="text"
-      value="item"
-      name="recipe[recipe_materials][][unit]"
-    >
+    <button class="add-table-item" data-url="<%=new_step_path%>">Add step</button>
   </div>
 
   <div class="field">

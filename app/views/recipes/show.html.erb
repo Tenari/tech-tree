@@ -10,12 +10,23 @@
   <%= link_to @recipe.demonstration, @recipe.demonstration %>
 </p>
 
-<% if @recipe.step_materials.count > 0 %>
+<% if @recipe.recipe_materials.count > 0 %>
   <p>
     <strong>Materials:</strong>
     <ul>
-    <% @recipe.step_materials.each do |m| %>
+    <% @recipe.recipe_materials.each do |m| %>
       <li><%=m.quantity%> <%= m.unit %> - <%= link_to m.stuff.name, m.stuff %></li>
+    <% end %>
+    </ul>
+  </p>
+<% end %>
+
+<% if @recipe.recipe_tools.count > 0 %>
+  <p>
+    <strong>Tools:</strong>
+    <ul>
+    <% @recipe.recipe_tools.each do |m| %>
+      <li><%=m.quantity%> x <%= link_to m.stuff.name, m.stuff %></li>
     <% end %>
     </ul>
   </p>
