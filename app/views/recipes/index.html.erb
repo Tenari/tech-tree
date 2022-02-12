@@ -16,8 +16,8 @@
     <% @recipes.each do |recipe| %>
       <tr>
         <td><%= recipe.name %></td>
-        <td><%= recipe.steps %></td>
-        <td><%= recipe.stuff_id %></td>
+        <td><%= recipe.steps.count %></td>
+        <td><%= recipe.stuff.name %></td>
         <td><%= link_to 'Show', recipe %></td>
         <td><%= link_to 'Edit', edit_recipe_path(recipe) %></td>
         <td><%= link_to 'Destroy', recipe, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Recipe', new_recipe_path %>
+<%= link_to 'New Recipe', new_stuff_recipe_path(@stuff) %>

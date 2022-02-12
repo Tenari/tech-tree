@@ -1,0 +1,19 @@
+<li>
+  <%= stuff.name %>
+  <% recipe = stuff.recipes.first %>
+  <% sub_type = stuff.sub_types.first %>
+  <% while recipe.nil? && sub_type
+       recipe = sub_type.recipes.first
+       sub_type = sub_type.sub_types.first
+     end %>
+  <% if stuff.recipes.first.nil? && recipe %>
+    (as <%=recipe.stuff.name%>)
+  <% end %>
+  <% if recipe %>
+    <ul>
+    <% recipe.needed_stuffs.each do |need| %>
+      <%= render partial: 'sub_tree', locals: {stuff: need} %>
+    <% end %>
+    </ul>
+  <% end %>
+</li>

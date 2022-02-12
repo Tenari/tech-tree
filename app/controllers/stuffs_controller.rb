@@ -1,22 +1,20 @@
 class StuffsController < ApplicationController
-  before_action :set_stuff, only: [:show, :edit, :update, :destroy]
+  before_action :set_stuff, only: [:show, :edit, :update, :destroy, :tree]
 
   def index
     @stuffs = Stuff.all
   end
 
-  def show
-  end
+  def show; end
+
+  def tree; end
 
   def new
     @stuff = Stuff.new(parent_id: params[:parent_id])
   end
 
-  def edit
-  end
+  def edit; end
 
-  # POST /stuffs
-  # POST /stuffs.json
   def create
     @stuff = Stuff.new(stuff_params)
 
@@ -31,8 +29,6 @@ class StuffsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /stuffs/1
-  # PATCH/PUT /stuffs/1.json
   def update
     respond_to do |format|
       if @stuff.update(stuff_params)
@@ -45,8 +41,6 @@ class StuffsController < ApplicationController
     end
   end
 
-  # DELETE /stuffs/1
-  # DELETE /stuffs/1.json
   def destroy
     @stuff.destroy
     respond_to do |format|

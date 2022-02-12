@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   end
   get '/recipes/material/new' => 'recipes#material', as: :new_recipe_material
   get '/recipes/tool/new' => 'recipes#tool', as: :new_recipe_tool
+  get '/stuffs/:id/tree' => 'stuffs#tree', as: :show_stuff_tree
   root 'stuffs#index'
   resources :materials
   resources :tools

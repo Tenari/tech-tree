@@ -2,7 +2,8 @@ class RecipesController < ApplicationController
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
 
   def index
-    @recipes = Recipe.all
+    @stuff = Stuff.find(params[:stuff_id])
+    @recipes = @stuff.recipes
   end
 
   def show
@@ -24,7 +25,11 @@ class RecipesController < ApplicationController
   end
 
   def create
+    params[:recipe].permit!
     @recipe = Recipe.new(recipe_params)
+    @recipe.steps = params[:recipe][:steps].map {|s| Step.new(s.to_h)}.select {|s| s.valid?}
+    @recipe.recipe_materials = params[:recipe][:recipe_materials].map { |rm| RecipeMaterial.new(rm.to_h) }.select {|rm| Stuff.exists?(rm.stuff_id)}
+    @recipe.recipe_tools = params[:recipe][:recipe_tools].map { |rt| RecipeTool.new(rt.to_h) }.select {|rt| Stuff.exists?(rt.stuff_id)}
 
     respond_to do |format|
       if @recipe.save
@@ -62,9 +67,10 @@ class RecipesController < ApplicationController
   # DELETE /recipes/1
   # DELETE /recipes/1.json
   def destroy
+    stuff = @recipe.stuff
     @recipe.destroy
     respond_to do |format|
-      format.html { redirect_to recipes_url, notice: 'Recipe was successfully destroyed.' }
+      format.html { redirect_to stuff, notice: 'Recipe was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

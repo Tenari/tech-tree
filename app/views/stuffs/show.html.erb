@@ -22,7 +22,6 @@
   <%= markdown @stuff.notes %>
 </p>
 
-
 <% if @stuff.parent %>
   <p><strong>Parent Stuff:</strong> <%=link_to @stuff.parent.name, @stuff.parent %></p>
 <% end %>
@@ -41,6 +40,7 @@
     <li><%=link_to recpie.name, recpie %></li>
   <% end %>
   </ul>
+  <p><%=link_to 'Show Stuff\'s Tech-tree', show_stuff_tree_path(@stuff) %></p>
 <% end %>
 
 <div><%= link_to "Add Recipe", new_stuff_recipe_path(@stuff) %></div>

@@ -14,4 +14,8 @@ class Recipe < ActiveRecord::Base
   def steps_text
     self.steps.order(:order).map {|s| "#{s.order}. #{s.text}" }.join("\n")
   end
+
+  def needed_stuffs
+    self.materials.to_a + self.tools.to_a
+  end
 end
